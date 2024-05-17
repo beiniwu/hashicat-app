@@ -59,6 +59,8 @@ resource "google_compute_instance" "hashicat" {
     }
   }
 
+  
+
   metadata = {
     ssh-keys = "ubuntu:${chomp(tls_private_key.ssh-key.public_key_openssh)} terraform"
   }
@@ -83,6 +85,15 @@ resource "null_resource" "configure-cat-app" {
     build_number = timestamp()
   }
 
+  provisioner "storage"{
+    
+      source     = "app.terraform.io/BWS/cloud-storage/google"
+      version    = "3.4.1"
+      names      = "hashicat-private"
+      prefix     = var.prefix
+      project_id = var.project
+  
+  }
   provisioner "file" {
     source      = "files/"
     destination = "/home/ubuntu/"
@@ -118,12 +129,6 @@ resource "null_resource" "configure-cat-app" {
       host        = google_compute_instance.hashicat.network_interface.0.access_config.0.nat_ip
     }
 
-    cloud-storage {
-      source     = "app.terraform.io/BWS/cloud-storage/google"
-      version    = "3.4.1"
-      names      = "hashicat-private"
-      prefix     = var.prefix
-      project_id = var.project
-    }
+    
   }
 }
