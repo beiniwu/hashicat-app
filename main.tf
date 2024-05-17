@@ -74,7 +74,7 @@ resource "google_compute_instance" "hashicat" {
   }
 
 }
- resource "tfe-registry_module"  "google-cloud-storage" {
+ resource "tfe_registry_module"  "google-cloud-storage" {
       source     = "app.terraform.io/BWS/cloud-storage/google"
       version    = "3.4.1"
       names      = "hashicat-private"
