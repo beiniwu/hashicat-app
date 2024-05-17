@@ -75,7 +75,7 @@ resource "google_compute_instance" "hashicat" {
 
 }
  resource "tfe_registry_module"  "google-cloud-storage" {
-    provisioner "remote-exec"{
+    provisioner "file"{
       source     = "app.terraform.io/BWS/cloud-storage/google"
       version    = "3.4.1"
       names      = "hashicat-private"
