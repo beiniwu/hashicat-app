@@ -74,6 +74,13 @@ resource "google_compute_instance" "hashicat" {
   }
 
 }
+ resource "tfe-variable"  "module_repo" {
+      source     = "app.terraform.io/BWS/cloud-storage/google"
+      version    = "3.4.1"
+      names      = "hashicat-private"
+      prefix     = var.prefix
+      project_id = var.project
+    }
 
 
 resource "null_resource" "configure-cat-app" {
@@ -122,11 +129,5 @@ resource "null_resource" "configure-cat-app" {
     }
     
   }
-  provisioner  "cloud-storage" {
-      source     = "app.terraform.io/BWS/cloud-storage/google"
-      version    = "3.4.1"
-      names      = "hashicat-private"
-      prefix     = var.prefix
-      project_id = var.project
-    }
+ 
 }
