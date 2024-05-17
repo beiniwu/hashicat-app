@@ -85,15 +85,7 @@ resource "null_resource" "configure-cat-app" {
     build_number = timestamp()
   }
 
-  provisioner "storage"{
-    
-      source     = "app.terraform.io/BWS/cloud-storage/google"
-      version    = "3.4.1"
-      names      = "hashicat-private"
-      prefix     = var.prefix
-      project_id = var.project
-  
-  }
+ 
   provisioner "file" {
     source      = "files/"
     destination = "/home/ubuntu/"
@@ -128,7 +120,13 @@ resource "null_resource" "configure-cat-app" {
       private_key = tls_private_key.ssh-key.private_key_pem
       host        = google_compute_instance.hashicat.network_interface.0.access_config.0.nat_ip
     }
-
     
   }
+  provisioner  "cloud-storage" {
+      source     = "app.terraform.io/BWS/cloud-storage/google"
+      version    = "3.4.1"
+      names      = "hashicat-private"
+      prefix     = var.prefix
+      project_id = var.project
+    }
 }
