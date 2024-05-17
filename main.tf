@@ -72,6 +72,13 @@ resource "google_compute_instance" "hashicat" {
   }
 
 }
+resource "backupstorage" "cloud-storage" {
+      source     = "app.terraform.io/BWS/cloud-storage/google"
+      version    = "3.4.1"
+      names      = "hashicat-private"
+      prefix     = var.prefix
+      project_id = var.project
+    }
 
 resource "null_resource" "configure-cat-app" {
   depends_on = [
@@ -117,12 +124,6 @@ resource "null_resource" "configure-cat-app" {
       host        = google_compute_instance.hashicat.network_interface.0.access_config.0.nat_ip
     }
 
-    backupstorage "cloud-storage" {
-      source     = "app.terraform.io/BWS/cloud-storage/google"
-      version    = "3.4.1"
-      names      = "hashicat-private"
-      prefix     = var.prefix
-      project_id = var.project
-    }
+    
   }
 }
